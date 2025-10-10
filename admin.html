@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administración de Menú</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <header>
+    <h1>⚙️ Panel Administrativo</h1>
+    <button id="btn-agregar">➕ Agregar Comida</button>
+  </header>
+
+  <main>
+    <div id="contenedor-menu" class="grid-menu"></div>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal" class="modal oculto">
+    <div class="modal-contenido">
+      <h2 id="titulo-modal">Agregar Plato</h2>
+      <label>Nombre:</label>
+      <input type="text" id="nombre">
+      <label>Ingredientes básicos:</label>
+      <textarea id="descripcion"></textarea>
+      <label>Precio (S/):</label>
+      <input type="number" id="precio" step="0.1">
+      <label>Cantidad:</label>
+      <input type="number" id="cantidad">
+      <label>Imagen (URL o ruta local):</label>
+      <input type="text" id="imagen">
+      <div class="acciones">
+        <button id="guardar">Guardar</button>
+        <button id="cancelar">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    mostrarMenu("admin");
+    document.getElementById("btn-agregar").addEventListener("click", () => abrirModal());
+  </script>
+</body>
+</html>
