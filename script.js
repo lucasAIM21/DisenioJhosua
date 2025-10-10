@@ -194,3 +194,7 @@ document.getElementById("guardar")?.addEventListener("click", () => {
 document.getElementById("cancelar")?.addEventListener("click", () => {
   document.getElementById("modal").classList.add("oculto");
 });
+
+function CambiarVista(){
+  window.location.href = "admin.html";
+}
