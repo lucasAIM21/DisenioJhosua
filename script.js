@@ -196,5 +196,5 @@ document.getElementById("cancelar")?.addEventListener("click", () => {
 });
 
 function CambiarVista(){
-  window.location.href = "admin.html";
+  window.location.href = "views/admin.html";
 }
