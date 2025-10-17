@@ -23,7 +23,7 @@ async function mostrarMenu(vista) {
       tarjeta.style.position = "relative";
 
       tarjeta.innerHTML = `
-        <img src="${API_URL,comida.imagen}" alt="${comida.nombre}">
+        <img src="${API_URL}${comida.imagen}" alt="${comida.nombre}">
         <h2>${comida.nombre}</h2>
         <p>${comida.descripcion}</p>
         <p><strong>S/ ${comida.precio}</strong></p>
