@@ -1,118 +1,82 @@
-// Lista inicial de comidas
-let comidas = [
-  {
-    id: 1,
+const API_URL = "https://laimserver.duckdns.org";
+    /*id: 1,
     nombre: "Lomo Saltado",
     descripcion: "Tiras de carne salteadas con cebolla, tomate y papas fritas.",
     precio: 25.0,
     cantidad: 10,
-    imagen: "https://i.ytimg.com/vi/sWXRJbGi6yQ/maxresdefault.jpg"
-  },
-  {
-    id: 2,
-    nombre: "Ají de Gallina",
-    descripcion: "Pollo deshilachado en crema de ají amarillo y queso.",
-    precio: 20.0,
-    cantidad: 8,
-    imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRV5wRKNcwCgoGM94gz5DmKo_HWcE-vAgSVHg&s"
-  },
-  {
-    id: 3,
-    nombre: "Ceviche",
-    descripcion: "Pescado fresco marinado en limón con cebolla, ají y camote.",
-    precio: 22.0,
-    cantidad: 12,
-    imagen: "https://www.recetasnestle.cl/sites/default/files/srh_recipes/379d1ba605985c4bc3ea975cabacce13.jpg"
-  },
-  {
-    id: 4,
-    nombre: "Anticuchos",
-    descripcion: "Brochetas de corazón de res marinadas y asadas.",
-    precio: 15.0,
-    cantidad: 15,
-    imagen: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSTWfGUY9814nmbvW1LlP2OrSNoN4u2dVifQ&s"
-  },
-  {
-    id: 5,
-    nombre: "Arroz con Pollo",
-    descripcion: "Arroz verde acompañado con presa de pollo jugoso.",
-    precio: 18.0,
-    cantidad: 9,
-    imagen: "https://i.ytimg.com/vi/3YCVrs0_BCw/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCRZrBn_7FI4nj_lUDaCAHrUUzaTQ"
-  },
-  {
-    id: 6,
-    nombre: "Pachamanca",
-    descripcion: "Carne, papas y hierbas andinas cocidas bajo tierra.",
-    precio: 30.0,
-    cantidad: 5,
-    imagen: "https://www.comida-peruana.com/base/stock/Recipe/pachamanca-a-la-olla/pachamanca-a-la-olla_web.jpg"
-  }
-];
+    imagen: "https://i.ytimg.com/vi/sWXRJbGi6yQ/maxresdefault.jpg"*/
 
 let editandoId = null;
 
 // Función principal para mostrar el menú
-function mostrarMenu(vista) {
-  const contenedor = document.getElementById("contenedor-menu");
-  contenedor.innerHTML = "";
+async function mostrarMenu(vista) {
+  try{
+    const response = await fetch(`${API_URL}/api/Productos`);
+    const comidas = await response.json();
 
-  comidas.forEach((comida) => {
-    const tarjeta = document.createElement("div");
-    tarjeta.classList.add("tarjeta");
-    tarjeta.style.position = "relative";
+    const contenedor = document.getElementById("contenedor-menu");
+    contenedor.innerHTML = "";
 
-    tarjeta.innerHTML = `
-      <img src="${comida.imagen}" alt="${comida.nombre}">
-      <h2>${comida.nombre}</h2>
-      <p>${comida.descripcion}</p>
-      <p><strong>S/ ${comida.precio.toFixed(2)}</strong></p>
-      <p>Disponibles: ${comida.cantidad}</p>
-    `;
+    comidas.forEach((comida) => {
+      const tarjeta = document.createElement("div");
+      tarjeta.classList.add("tarjeta");
+      tarjeta.style.position = "relative";
 
-    if (vista === "admin") {
-      const botonAcciones = document.createElement("button");
-      botonAcciones.textContent = "⋮";
-      botonAcciones.classList.add("btn-acciones");
+      tarjeta.innerHTML = `
+        <img src="${API_URL,comida.imagen}" alt="${comida.nombre}">
+        <h2>${comida.nombre}</h2>
+        <p>${comida.descripcion}</p>
+        <p><strong>S/ ${comida.precio.toFixed(2)}</strong></p>
+        <p>Disponibles: ${10}</p>
+      `;
 
-      // Menú de opciones oculto
-      const menuOpciones = document.createElement("div");
-      menuOpciones.classList.add("opciones");
+      if (vista === "admin") {
+        const botonAcciones = document.createElement("button");
+        botonAcciones.textContent = "⋮";
+        botonAcciones.classList.add("btn-acciones");
 
-      const btnEditar = document.createElement("button");
-      btnEditar.textContent = "✏️ Editar";
-      btnEditar.addEventListener("click", () => {
-        menuOpciones.style.display = "none";
-        editarComida(comida.id);
-      });
+        // Menú de opciones oculto
+        const menuOpciones = document.createElement("div");
+        menuOpciones.classList.add("opciones");
 
-      const btnEliminar = document.createElement("button");
-      btnEliminar.textContent = "🗑️ Eliminar";
-      btnEliminar.addEventListener("click", () => {
-        eliminarComida(comida.id);
-      });
-
-      menuOpciones.appendChild(btnEditar);
-      menuOpciones.appendChild(btnEliminar);
-
-      tarjeta.appendChild(botonAcciones);
-      tarjeta.appendChild(menuOpciones);
-
-      botonAcciones.addEventListener("click", () => {
-        menuOpciones.style.display =
-          menuOpciones.style.display === "flex" ? "none" : "flex";
-      });
-
-      // Cerrar menú si se hace clic fuera
-      document.addEventListener("click", (e) => {
-        if (!tarjeta.contains(e.target)) {
+        const btnEditar = document.createElement("button");
+        btnEditar.textContent = "✏️ Editar";
+        btnEditar.addEventListener("click", () => {
           menuOpciones.style.display = "none";
-        }
-      });
-    }
+          editarComida(comida.id);
+        });
 
-    contenedor.appendChild(tarjeta);
-  });
+        const btnEliminar = document.createElement("button");
+        btnEliminar.textContent = "🗑️ Eliminar";
+        btnEliminar.addEventListener("click", () => {
+          eliminarComida(comida.id);
+        });
+
+        menuOpciones.appendChild(btnEditar);
+        menuOpciones.appendChild(btnEliminar);
+
+        tarjeta.appendChild(botonAcciones);
+        tarjeta.appendChild(menuOpciones);
+
+        botonAcciones.addEventListener("click", () => {
+          menuOpciones.style.display =
+            menuOpciones.style.display === "flex" ? "none" : "flex";
+        });
+
+        // Cerrar menú si se hace clic fuera
+        document.addEventListener("click", (e) => {
+          if (!tarjeta.contains(e.target)) {
+            menuOpciones.style.display = "none";
+          }
+        });
+      }
+
+      contenedor.appendChild(tarjeta);
+    });
+
+  }catch(error){
+    console.error("Error al cargar datos: ",error);
+  }
 }
 
 // Eliminar
