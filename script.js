@@ -26,7 +26,7 @@ async function mostrarMenu(vista) {
         <img src="${API_URL,comida.imagen}" alt="${comida.nombre}">
         <h2>${comida.nombre}</h2>
         <p>${comida.descripcion}</p>
-        <p><strong>S/ ${comida.precio.toFixed(2)}</strong></p>
+        <p><strong>S/ ${comida.precio}</strong></p>
         <p>Disponibles: ${10}</p>
       `;
 
