@@ -1,4 +1,4 @@
-
+const API_URL = "https://laimserver.duckdns.org";
 
 async function mostrarMenu() {
   try{
