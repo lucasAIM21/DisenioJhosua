@@ -27,7 +27,7 @@ async function mostrarMenu(vista) {
         <h2>${comida.nombre}</h2>
         <p>${comida.descripcion}</p>
         <p><strong>S/ ${comida.precio}</strong></p>
-        <p>Disponibles: ${10}</p>
+        <p>Disponibles: ${comida.cantidad}</p>
       `;
 
       if (vista === "admin") {
@@ -80,8 +80,15 @@ async function mostrarMenu(vista) {
 }
 
 // Eliminar
-function eliminarComida(id) {
-  comidas = comidas.filter((c) => c.id !== id);
+async function eliminarComida(id) {
+  try{
+    const res = await fetch(`${API_URL}/api/Productos/${id}`,{credentials: 'include', method: 'DELETE'});
+
+    const data = await res.json();
+    
+  }catch(error){
+    console.error("Error al eliminar: ",error);
+  }
   mostrarMenu("admin");
 }
 
