@@ -8,8 +8,20 @@ const API_URL = "https://laimserver.duckdns.org";
 
 let editandoId = null;
 
+
+async function ValidarSesion() {
+  fetch('https://laimserver.duckdns.org/api/ValidarPIN', { credentials: 'include', method: 'GET' })
+  .then(res => res.json())
+  .then(data => {
+    alert(data);
+    if (!data.autenticado) {
+      window.location.href = "login.html";
+    }
+  });
+}
+
 // Función principal para mostrar el menú
-async function mostrarMenu(vista) {
+async function mostrarMenu() {
   try{
     const response = await fetch(`${API_URL}/api/Productos`);
     const comidas = await response.json();
@@ -30,7 +42,6 @@ async function mostrarMenu(vista) {
         <p>Disponibles: ${comida.cantidad}</p>
       `;
 
-      if (vista === "admin") {
         const botonAcciones = document.createElement("button");
         botonAcciones.textContent = "⋮";
         botonAcciones.classList.add("btn-acciones");
@@ -69,7 +80,6 @@ async function mostrarMenu(vista) {
             menuOpciones.style.display = "none";
           }
         });
-      }
 
       contenedor.appendChild(tarjeta);
     });
@@ -169,3 +179,5 @@ document.getElementById("cancelar")?.addEventListener("click", () => {
 function CambiarVista(){
   window.location.href = "views/admin.html";
 }
+
+ValidarSesion();
