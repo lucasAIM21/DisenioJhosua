@@ -185,7 +185,7 @@ document.getElementById("guardar")?.addEventListener("click", async () => {
   const descripcion = document.getElementById("descripcion").value;
   const precio = parseFloat(document.getElementById("precio").value);
   const cantidad = parseInt(document.getElementById("cantidad").value);
-  const imagen = document.getElementById("imagen").value;
+  const imagen = document.getElementById("imagen").files[0];
   const categoriaid = document.getElementById("Categorias").value;
 
   const datos= new FormData();
