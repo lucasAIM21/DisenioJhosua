@@ -1,6 +1,5 @@
-import { Platillo } from "../Clases/Platillo.js";
-import { Categoria } from "../Clases/Categoria.js";
-
+import Platillo from "../Clases/Platillo.js";
+import Categoria from "../Clases/Categoria.js";
 
 const API_URL = "https://laimserver.duckdns.org";
 let platillos = [];
