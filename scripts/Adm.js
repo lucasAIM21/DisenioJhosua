@@ -58,7 +58,7 @@ async function CargarPlatos() {
       ));
       console.log("ruta: "+p.imagen);
     });
-    console.log("ruta1: "+platillos[0].rutaImagen);
+    console.log("ruta1: "+platillos);
   }catch(error){
     console.error("Error al cargar datos: ",error);
   }
@@ -78,7 +78,7 @@ async function mostrarMenu() {
     tarjeta.style.position = "relative";
 
     tarjeta.innerHTML = `
-      <img src="${API_URL}${comida.rutaImagen}" alt="${comida.nombre}">
+      <img src="${API_URL}${comida.RutaImagen}" alt="${comida.nombre}">
       <h2>${comida.nombre}</h2>
       <p>${comida.descripcion}</p>
       <p><strong>S/ ${comida.precio}</strong></p>
