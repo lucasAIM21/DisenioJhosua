@@ -1,4 +1,4 @@
-class categoria{
+class Categoria{
     id;
     nombre;
     rutaImagen;

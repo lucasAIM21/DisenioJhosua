@@ -1,3 +1,6 @@
+import { Platillo } from "../Clases/Platillo.js";
+import { Categoria } from "../Clases/Categoria.js";
+
 
 const API_URL = "https://laimserver.duckdns.org";
 let platillos = [];
@@ -24,9 +27,9 @@ async function CargarCategorias() {
     const CategoriasJson = await response.json();
 
     CategoriasJson.forEach(c => {
-      Categorias.push(new categoria(
+      Categorias.push(new Categoria(
         c.id,
-        p.nombre,
+        c.nombre,
         c.rutaImagen
       ));
     });
@@ -45,7 +48,7 @@ async function CargarPlatos() {
     const platos = await response.json();
 
     platos.forEach(p => {
-      platillos.push(new platillo(
+      platillos.push(new Platillo(
         p.id,
         p.nombre,
         p.descripcion,

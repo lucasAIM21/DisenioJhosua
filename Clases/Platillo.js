@@ -1,4 +1,4 @@
-class platillo{
+class Platillo{
     id;
     nombre;
     descripcion;
