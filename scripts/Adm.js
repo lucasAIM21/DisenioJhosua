@@ -33,7 +33,7 @@ async function CargarCategorias() {
       ));
       console.log("ruta: "+c.rutaImagen);
     });
-
+    console.log("rutas: "+Categorias);
   }catch(error){
     console.error("Error al cargar datos: ",error);
   }
