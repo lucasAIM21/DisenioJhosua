@@ -77,7 +77,7 @@ async function mostrarMenu() {
     tarjeta.style.position = "relative";
 
     tarjeta.innerHTML = `
-      <img src="${API_URL}${comida.imagen}" alt="${comida.nombre}">
+      <img src="${API_URL}${comida.rutaImagen}" alt="${comida.nombre}">
       <h2>${comida.nombre}</h2>
       <p>${comida.descripcion}</p>
       <p><strong>S/ ${comida.precio}</strong></p>
@@ -168,6 +168,7 @@ function abrirModal() {
   document.getElementById("descripcion").value = "";
   document.getElementById("precio").value = "";
   document.getElementById("cantidad").value = "";
+  document.getElementById("Categorias").value="";
   document.getElementById("imagenPrevia").src="";
   document.getElementById("imagen").value = "";
 
@@ -248,6 +249,8 @@ function cargarSelect(){
     select.appendChild(option);
   });
 }
+
+document.getElementById("btn-agregar").addEventListener("click", () => abrirModal());
 
 function init(){
   ValidarSesion();
