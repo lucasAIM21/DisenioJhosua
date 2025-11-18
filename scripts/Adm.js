@@ -29,9 +29,9 @@ async function CargarCategorias() {
       Categorias.push(new Categoria(
         c.id,
         c.nombre,
-        c.rutaImagen
+        c.imagen
       ));
-      console.log("ruta: "+c.rutaImagen);
+      console.log("ruta: "+c.imagen);
     });
     console.log("rutas: "+Categorias);
   }catch(error){
@@ -154,7 +154,7 @@ function editarComida(id) {
   document.getElementById("descripcion").value = comida.descripcion;
   document.getElementById("precio").value = comida.precio;
   document.getElementById("cantidad").value = comida.cantidad;
-  document.getElementById("imagenPrevia").src=`${API_URL}${comida.RutaImagen}`;
+  document.getElementById("imagenPrevia").src="";//`${API_URL}${comida.RutaImagen}`;
   document.getElementById("Categorias").value=comida.categoria.id;
 
   editandoId = id;
