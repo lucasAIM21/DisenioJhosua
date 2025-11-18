@@ -154,7 +154,7 @@ function editarComida(id) {
   document.getElementById("descripcion").value = comida.descripcion;
   document.getElementById("precio").value = comida.precio;
   document.getElementById("cantidad").value = comida.cantidad;
-  document.getElementById("imagenPrevia").src="";//`${API_URL}${comida.RutaImagen}`;
+  document.getElementById("imagenPrevia").src=`${API_URL}${comida.RutaImagen}`;
   document.getElementById("Categorias").value=comida.categoria.id;
 
   editandoId = id;
