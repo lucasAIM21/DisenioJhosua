@@ -17,9 +17,9 @@ async function ValidarSesion() {
 
 async function CargarCategorias() {
 
-  Categorias.length=0;//vaciamos las categorias
-
   try{
+    Categorias.length=0;//vaciamos las categorias
+
     const response = await fetch(`${API_URL}/api/Categorias`);
     const CategoriasJson = await response.json();
 
@@ -37,10 +37,10 @@ async function CargarCategorias() {
 }
 
 async function CargarPlatos() {
-
-  platillos.length=0;//vaciamos los platillos
-
+  
   try{
+    platillos.length=0;//vaciamos los platillos
+
     const response = await fetch(`${API_URL}/api/Productos`);
     const platos = await response.json();
 
