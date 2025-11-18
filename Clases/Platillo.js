@@ -9,7 +9,7 @@ export default class Platillo{
 
     static UltimoId=0;
 
-    constructor(id,nombre,descripcion,precio,cantidad,imagen){
+    constructor(id,nombre,descripcion,precio,cantidad,imagen,categoria){
         this.id=id;
         this.nombre=nombre;
         this.descripcion=descripcion;
@@ -17,7 +17,7 @@ export default class Platillo{
         this.cantidad=cantidad;
         this.imagen=imagen;
         this.categoria=categoria;
-        platillo.UltimoId++;
+        Platillo.UltimoId++;
     }
 
 }
