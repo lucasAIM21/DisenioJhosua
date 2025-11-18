@@ -1,4 +1,4 @@
-class Platillo{
+export default class Platillo{
     id;
     nombre;
     descripcion;

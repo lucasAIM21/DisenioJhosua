@@ -1,4 +1,4 @@
-class Categoria{
+export default class Categoria{
     id;
     nombre;
     rutaImagen;
