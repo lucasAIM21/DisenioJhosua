@@ -190,11 +190,11 @@ document.getElementById("guardar")?.addEventListener("click", async () => {
 
   const datos= new FormData();
   datos.append("nombre",nombre);
-  datos.append("precio",nombre);
-  datos.append("descripcion",nombre);
-  datos.append("cantidad",nombre);
-  datos.append("imagen",nombre);
-  datos.append("CategoriaId",nombre);
+  datos.append("precio",descripcion);
+  datos.append("descripcion",precio);
+  datos.append("cantidad",cantidad);
+  datos.append("imagen",imagen);
+  datos.append("CategoriaId",categoriaid);
 
 
   if (!nombre || !descripcion || !precio || !cantidad || !imagen || !categoriaid) {
@@ -206,15 +206,15 @@ document.getElementById("guardar")?.addEventListener("click", async () => {
 
   if (editandoId) {
     // Editar
-    res = await fetch(`${API_URL}/productos/${editandoId}`, {
+    res = await fetch(`${API_URL}/api/productos/${editandoId}`, {
                 credentials: 'include',
                 method: "PUT",
                 body: datos
-            });
+            }); 
 
   } else {
     // Agregar
-    res = await fetch(`${API_URL}/productos`, {
+    res = await fetch(`${API_URL}/api/productos`, {
                 credentials: 'include',
                 method: "POST",
                 body: datos
