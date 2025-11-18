@@ -53,7 +53,7 @@ async function CargarPlatos() {
         p.descripcion,
         p.precio,
         p.cantidad,
-        p.imagen,
+        p.rutaImagen,
         p.categoria
       ));
     });
