@@ -190,8 +190,8 @@ document.getElementById("guardar")?.addEventListener("click", async () => {
 
   const datos= new FormData();
   datos.append("nombre",nombre);
-  datos.append("precio",descripcion);
-  datos.append("descripcion",precio);
+  datos.append("precio",precio);
+  datos.append("descripcion",descripcion);
   datos.append("cantidad",cantidad);
   datos.append("imagen",imagen);
   datos.append("CategoriaId",categoriaid);
