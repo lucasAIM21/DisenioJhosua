@@ -56,6 +56,7 @@ async function CargarPlatos() {
         p.imagen,
         p.categoria
       ));
+      console.log("ruta: "+p.imagen);
     });
     console.log("ruta1: "+platillos[0].rutaImagen);
   }catch(error){
