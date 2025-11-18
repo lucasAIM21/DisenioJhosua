@@ -243,7 +243,7 @@ function Recortar(){
 
 function cargarSelect(){
   const select=document.getElementById('Categorias');
-  Categorias.length;
+  console.log("Numero de categorias: "+Categorias.length);
   Categorias.forEach(c=>{
     const option=document.createElement('option');
     option.value=c.id;
