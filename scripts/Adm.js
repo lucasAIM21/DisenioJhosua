@@ -248,7 +248,7 @@ function cargarSelect(){
     option.value=c.id;
     option.textContent=c.nombre;
     select.appendChild(option);
-    console.log("se agrego la categoria: "+c.nombre);
+    console.log("se agrego la categoria: "+option.textContent);
   });
 }
 
