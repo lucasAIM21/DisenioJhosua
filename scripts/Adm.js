@@ -57,7 +57,7 @@ async function CargarPlatos() {
         p.categoria
       ));
     });
-    console.log(platillos[0].rutaImagen);
+    console.log("ruta1: "+platillos[0].rutaImagen);
   }catch(error){
     console.error("Error al cargar datos: ",error);
   }
