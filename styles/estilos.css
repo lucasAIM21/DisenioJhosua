@@ -123,7 +123,8 @@ button:hover {
 }
 
 .modal-contenido input,
-.modal-contenido textarea {
+.modal-contenido textarea
+.modal-contenido select {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
