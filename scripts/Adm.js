@@ -243,12 +243,12 @@ function Recortar(){
 
 function cargarSelect(){
   const select=document.getElementById('Categorias');
+  Categorias.length;
   Categorias.forEach(c=>{
     const option=document.createElement('option');
     option.value=c.id;
     option.textContent=c.nombre;
     select.appendChild(option);
-    console.log("se agrego la categoria: "+option.textContent);
   });
 }
 
