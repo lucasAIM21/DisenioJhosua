@@ -15,7 +15,7 @@ export default class Platillo{
         this.descripcion=descripcion;
         this.precio=precio;
         this.cantidad=cantidad;
-        this.imagen=imagen;
+        this.RutaImagen=imagen;
         this.categoria=categoria;
         Platillo.UltimoId++;
     }
