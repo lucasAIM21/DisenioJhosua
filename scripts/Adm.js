@@ -31,6 +31,7 @@ async function CargarCategorias() {
         c.nombre,
         c.rutaImagen
       ));
+      console.log("ruta: "+c.rutaImagen);
     });
 
   }catch(error){
