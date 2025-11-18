@@ -1,5 +1,3 @@
-import cropper from 'cropperjs';
-import 'cropperjs/dist/cropper.css';
 
 const API_URL = "https://laimserver.duckdns.org";
 let platillos = [];
