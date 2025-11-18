@@ -7,14 +7,16 @@ let Categorias =[];
 let editandoId = null;
 
 async function ValidarSesion() {
-  fetch('https://laimserver.duckdns.org/api/ValidarPIN', { credentials: 'include', method: 'GET' })
-  .then(res => res.json())
-  .then(data => {
-    alert(data);
-    if (!data.autenticado) {
-      window.location.href = "login.html";
-    }
+  const res = await fetch('https://laimserver.duckdns.org/api/ValidarPIN', {
+    credentials: 'include',
+    method: 'GET'
   });
+
+  const data = await res.json();
+  
+  if (!data.autenticado) {
+    window.location.href = "login.html";
+  }
 }
 
 async function CargarCategorias() {
@@ -254,10 +256,10 @@ function cargarSelect(){
 
 document.getElementById("btn-agregar").addEventListener("click", () => abrirModal());
 
-function init(){
-  ValidarSesion();
-  mostrarMenu();
-  cargarSelect();
+async function init(){
+  await ValidarSesion();
+  await mostrarMenu();
+  await cargarSelect();
 }
 
 init();
