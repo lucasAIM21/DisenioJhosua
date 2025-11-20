@@ -1,6 +1,8 @@
 import Platillo from "../Clases/Platillo.js";
 import Categoria from "../Clases/Categoria.js";
 
+import Cropper from "../libs/cropper.min.js";
+
 const API_URL = "https://laimserver.duckdns.org";
 let platillos = [];
 let Categorias =[];
