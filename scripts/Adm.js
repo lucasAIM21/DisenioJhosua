@@ -188,7 +188,7 @@ document.getElementById("guardar")?.addEventListener("click", async () => {
   const descripcion = document.getElementById("descripcion").value;
   const precio = parseFloat(document.getElementById("precio").value);
   const cantidad = parseInt(document.getElementById("cantidad").value);
-  const imagen = document.getElementById("imagen").files[0];
+  let imagen = window.imagenRecortadaFile ?? document.getElementById("imagen").files[0];
   const categoriaid = document.getElementById("Categorias").value;
 
   const datos= new FormData();
@@ -238,17 +238,15 @@ document.getElementById("cancelar")?.addEventListener("click", () => {
   document.getElementById("modal").classList.add("oculto");
 });
 
-function Recortar(){
-  document.getElementById("modal").classList.add("oculto");
-  document.getElementById("modalRecorte").classList.remove("oculto");
 
-  const InputImagen=document.getElementById("imagen");
-  const PreviewImg=document.getElementById("preview");
-  const RecortarBtn=document.getElementById("btnRecortar");
-  const ImagenRecortada=document.getElementById("imagenPrevia");
-  
-
-
+function dataURLtoFile(dataURL, filename) {
+    const arr = dataURL.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) u8arr[n] = bstr.charCodeAt(n);
+    return new File([u8arr], filename, { type: mime });
 }
 
 document.getElementById("imagen").addEventListener("change", (e) => {
@@ -282,7 +280,7 @@ document.getElementById("btnRecortar").addEventListener("click", () => {
   document.getElementById("modalRecorte").classList.add("oculto");
   document.getElementById("modal").classList.remove("oculto");
 
-  const recortada = document.getElementById("imgPrev");
+  const recortada = document.getElementById("imagenPrevia");
 
   if (!cropper) return alert("Primero selecciona una imagen.");
 
@@ -291,7 +289,10 @@ document.getElementById("btnRecortar").addEventListener("click", () => {
     height: 300
   });
 
-  recortada.src = canvas.toDataURL("image/png");
+  const base64=canvas.toDataURL("image/png");
+
+  recortada.src = base64;
+  window.imagenRecortadaFile = dataURLtoFile(base64, "recorte.png");
   recortada.style.display = "block";
 });
 
