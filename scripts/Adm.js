@@ -6,6 +6,9 @@ let platillos = [];
 let Categorias =[];
 let editandoId = null;
 
+let cropper = null;
+
+
 async function ValidarSesion() {
   const res = await fetch('https://laimserver.duckdns.org/api/ValidarPIN', {
     credentials: 'include',
@@ -236,12 +239,61 @@ document.getElementById("cancelar")?.addEventListener("click", () => {
 });
 
 function Recortar(){
-  let cropper;
+  document.getElementById("modal").classList.add("oculto");
+  document.getElementById("modalRecorte").classList.remove("oculto");
 
-  const input=document.getElementById('imagen');
-  const img=document.getElementById('imagenPrevia');
+  const InputImagen=document.getElementById("imagen");
+  const PreviewImg=document.getElementById("preview");
+  const RecortarBtn=document.getElementById("btnRecortar");
+  const ImagenRecortada=document.getElementById("imagenPrevia");
   
+
+
 }
+
+document.getElementById("imagen").addEventListener("change", (e) => {
+  document.getElementById("modal").classList.add("oculto");
+  document.getElementById("modalRecorte").classList.remove("oculto");
+  
+  const preview=document.getElementById("preview");
+  
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const url = URL.createObjectURL(file);
+  preview.src = url;
+  preview.style.display = "block";
+
+  // Destruye cropper anterior si existe
+  if (cropper) cropper.destroy();
+
+  // Inicia cropper nuevo
+  cropper = new Cropper(preview, {
+    aspectRatio: 1, // cuadrado
+    viewMode: 1,
+    movable: true,
+    zoomable: true,
+    rotatable: false,
+    scalable: false
+  });
+});
+
+document.getElementById("btnRecortar").addEventListener("click", () => {
+  document.getElementById("modalRecorte").classList.add("oculto");
+  document.getElementById("modal").classList.remove("oculto");
+
+  const recortada = document.getElementById("imgPrev");
+
+  if (!cropper) return alert("Primero selecciona una imagen.");
+
+  const canvas = cropper.getCroppedCanvas({
+    width: 300,
+    height: 300
+  });
+
+  recortada.src = canvas.toDataURL("image/png");
+  recortada.style.display = "block";
+});
 
 function cargarSelect(){
   const select=document.getElementById('Categorias');
