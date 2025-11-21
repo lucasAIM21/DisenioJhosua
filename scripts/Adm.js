@@ -1,6 +1,6 @@
 import Platillo from "../Clases/Platillo.js";
 import Categoria from "../Clases/Categoria.js";
-const Cropper = window.Cropper;
+import Cropper from "../libs/cropperjs";
 
 
 const API_URL = "https://laimserver.duckdns.org";
