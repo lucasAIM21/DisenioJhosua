@@ -273,7 +273,10 @@ document.getElementById("imagen").addEventListener("change", (e) => {
     movable: true,
     zoomable: true,
     rotatable: false,
-    scalable: false
+    scalable: false,
+    ready: function () {
+      console.log("Cropper listo");
+    }
   });
   };
   preview.src = url;
