@@ -268,7 +268,8 @@ document.getElementById("imagen").addEventListener("change", (e) => {
   if (cropper) cropper.destroy();
 
   // Inicia cropper nuevo
-  cropper = new Cropper(preview, {
+  preview.onload = () => {
+    cropper = new Cropper(preview, {
     aspectRatio: 1, // cuadrado
     viewMode: 1,
     movable: true,
@@ -276,26 +277,53 @@ document.getElementById("imagen").addEventListener("change", (e) => {
     rotatable: false,
     scalable: false
   });
+  };
 });
 
 document.getElementById("btnRecortar").addEventListener("click", () => {
-  document.getElementById("modalRecorte").classList.add("oculto");
-  document.getElementById("modal").classList.remove("oculto");
+  if (!cropper || typeof cropper.getCroppedCanvas !== 'function') {
+    alert("Error: Cropper no está inicializado correctamente.");
+    document.getElementById("modalRecorte").classList.add("oculto");
+    document.getElementById("modal").classList.remove("oculto");
+    return;
+  }
 
-  const recortada = document.getElementById("imagenPrevia");
+  try {
+    // 2. OBTENER CANVAS RECORTADO
+    const canvas = cropper.getCroppedCanvas({
+      width: 300,
+      height: 300,
+      imageSmoothingEnabled: true,
+      imageSmoothingQuality: 'high'
+    });
 
-  if (!cropper) return alert("Primero selecciona una imagen.");
+    // 3. VERIFICAR QUE EL CANVAS SE GENERÓ
+    if (!canvas) {
+      throw new Error("No se pudo generar el canvas recortado");
+    }
 
-  const canvas = cropper.getCroppedCanvas({
-    width: 300,
-    height: 300
-  });
+    // 4. CONVERTIR A BASE64
+    const base64 = canvas.toDataURL("image/png");
+    const recortada = document.getElementById("imagenPrevia");
+    
+    recortada.src = base64;
+    window.imagenRecortadaFile = dataURLtoFile(base64, "recorte.png");
+    recortada.style.display = "block";
 
-  const base64=canvas.toDataURL("image/png");
+    // 5. CERRAR MODALES Y LIMPIAR
+    document.getElementById("modalRecorte").classList.add("oculto");
+    document.getElementById("modal").classList.remove("oculto");
 
-  recortada.src = base64;
-  window.imagenRecortadaFile = dataURLtoFile(base64, "recorte.png");
-  recortada.style.display = "block";
+    // 6. DESTRUIR INSTANCIA
+    if (cropper) {
+      cropper.destroy();
+      cropper = null;
+    }
+
+  } catch (error) {
+    console.error("Error al recortar:", error);
+    alert("Error al recortar la imagen. Por favor, intenta nuevamente.");
+  }
 });
 
 function cargarSelect(){
