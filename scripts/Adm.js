@@ -261,12 +261,10 @@ document.getElementById("imagen").addEventListener("change", (e) => {
   if (!file) return;
 
   const url = URL.createObjectURL(file);
-  preview.src = url;
-  preview.style.display = "block";
-
+  
   // Destruye cropper anterior si existe
   if (cropper) cropper.destroy();
-
+  
   // Inicia cropper nuevo
   preview.onload = () => {
     cropper = new Cropper(preview, {
@@ -278,6 +276,8 @@ document.getElementById("imagen").addEventListener("change", (e) => {
     scalable: false
   });
   };
+  preview.src = url;
+  preview.style.display = "block";
 });
 
 document.getElementById("btnRecortar").addEventListener("click", () => {
