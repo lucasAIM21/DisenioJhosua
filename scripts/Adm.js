@@ -252,6 +252,11 @@ function dataURLtoFile(dataURL, filename) {
 }
 
 document.getElementById("imagen").addEventListener("change", (e) => {
+  if (typeof Cropper === 'undefined') {
+    alert("Error: El editor de imágenes no está disponible. Recarga la página.");
+    return;
+  }
+
   document.getElementById("modal").classList.add("oculto");
   document.getElementById("modalRecorte").classList.remove("oculto");
   
@@ -268,23 +273,31 @@ document.getElementById("imagen").addEventListener("change", (e) => {
   // Inicia cropper nuevo
   preview.onload = () => {
     console.log("Imagen cargada para recorte");
-    cropper = new Cropper(preview, {
-    aspectRatio: 1, // cuadrado
-    viewMode: 1,
-    movable: true,
-    zoomable: true,
-    rotatable: false,
-    scalable: false,
-    ready: function () {
-      console.log("Cropper listo");
+    try {
+      cropper = new Cropper(preview, {
+        aspectRatio: 1, // cuadrado
+        viewMode: 1,
+        movable: true,
+        zoomable: true,
+        rotatable: false,
+        scalable: false,
+        ready: function () {
+          console.log("Cropper listo");
+        }
+      });
+    } catch (error) {
+      console.error("💥 Error inicializando Cropper:", error);
+      alert("Error al preparar el editor de imágenes.");
     }
-  });
   };
   preview.src = url;
   preview.style.display = "block";
 });
 
 document.getElementById("btnRecortar").addEventListener("click", () => {
+  console.log("estado del cropper",cropper);
+  console.log("🔍 Tipo de getCroppedCanvas:", cropper ? typeof cropper.getCroppedCanvas : "cropper es null");
+
   if (!cropper || typeof cropper.getCroppedCanvas !== 'function') {
     alert("Error: Cropper no está inicializado correctamente.");
     document.getElementById("modalRecorte").classList.add("oculto");
