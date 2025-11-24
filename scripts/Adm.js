@@ -294,8 +294,8 @@ document.getElementById("imagen").addEventListener("change", (e) => {
   preview.style.display = "block";
 });
 
-document.getElementById("btnRecortar").addEventListener("click", () => {
-  console.log("✂️ Iniciando recorte con Cropper v2.1.0...");
+document.getElementById("btnRecortar").addEventListener("click", async () => {
+    console.log("✂️ Iniciando recorte con Cropper v2.1.0...");
     
     if (!cropper) {
         alert("Error: No hay imagen para recortar.");
@@ -303,32 +303,29 @@ document.getElementById("btnRecortar").addEventListener("click", () => {
     }
 
     try {
-        // ✅ PARA CROPPER v2.1.0 - USAR getImageData()
-        console.log("📦 Usando API v2.1.0 - getImageData()");
-        const imageData = cropper.getImageData();
-        console.log("📐 Datos de la imagen:", imageData);
+        console.log("🎯 Buscando elemento de selección...");
         
-        const preview = document.getElementById("preview");
+        // ✅ PARA CROPPER v2.1.0 - USAR EL ELEMENTO DE SELECCIÓN
+        const selectionElement = document.querySelector('cropper-selection');
         
-        // ✅ CREAR CANVAS PARA EL RECORTE
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        if (!selectionElement) {
+            throw new Error("No se encontró el elemento de selección");
+        }
+
+        console.log("📦 Elemento de selección encontrado:", selectionElement);
         
-        // Tamaño final deseado
-        canvas.width = 300;
-        canvas.height = 300;
-        
-        // ✅ DIBUJAR LA IMAGEN RECORTADA
-        // En v2.x, la imagen ya está transformada y recortada en el preview
-        // Solo necesitamos dibujar el área visible
-        ctx.drawImage(
-            preview,
-            imageData.left,    // X posición del recorte
-            imageData.top,     // Y posición del recorte  
-            imageData.width,   // Ancho del recorte
-            imageData.height,  // Alto del recorte
-            0, 0, 300, 300     // Dimensiones destino
-        );
+        // ✅ OBTENER CANVAS RECORTADO usando $toCanvas()
+        console.log("🎨 Generando canvas recortado...");
+        const canvas = await selectionElement.$toCanvas({
+            width: 300,
+            height: 300
+        });
+
+        if (!canvas) {
+            throw new Error("No se pudo generar el canvas recortado");
+        }
+
+        console.log("✅ Canvas generado correctamente");
         
         // ✅ CONVERTIR A BASE64
         const base64 = canvas.toDataURL("image/png", 0.95);
@@ -352,7 +349,7 @@ document.getElementById("btnRecortar").addEventListener("click", () => {
 
     } catch (error) {
         console.error("💥 Error en el recorte:", error);
-        alert("Error al recortar: " + error.message);
+        alert("Error al recortar la imagen: " + error.message);
     }
 });
 
