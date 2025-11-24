@@ -295,44 +295,64 @@ document.getElementById("imagen").addEventListener("change", (e) => {
 });
 
 document.getElementById("btnRecortar").addEventListener("click", () => {
-  if (!cropper) return;
+  console.log("✂️ Iniciando recorte con Cropper v2.1.0...");
     
-    // ✅ PARA CROPPER v2.x
-    const data = cropper.getData();
-    const preview = document.getElementById("preview");
-    
-    // Crear canvas manualmente
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = 300;
-    canvas.height = 300;
-    
-    // Calcular escala para mantener relación de aspecto
-    const scaleX = preview.naturalWidth / preview.width;
-    const scaleY = preview.naturalHeight / preview.height;
-    
-    ctx.drawImage(
-        preview,
-        data.x * scaleX, data.y * scaleY, 
-        data.width * scaleX, data.height * scaleY,
-        0, 0, 300, 300
-    );
-    
-    const base64 = canvas.toDataURL("image/png");
-    const recortada = document.getElementById("imagenPrevia");
-    
-    recortada.src = base64;
-    window.imagenRecortadaFile = dataURLtoFile(base64, "recorte.png");
-    recortada.style.display = "block";
+    if (!cropper) {
+        alert("Error: No hay imagen para recortar.");
+        return;
+    }
 
-    // 5. CERRAR MODALES Y LIMPIAR
-    document.getElementById("modalRecorte").classList.add("oculto");
-    document.getElementById("modal").classList.remove("oculto");
+    try {
+        // ✅ PARA CROPPER v2.1.0 - USAR getImageData()
+        console.log("📦 Usando API v2.1.0 - getImageData()");
+        const imageData = cropper.getImageData();
+        console.log("📐 Datos de la imagen:", imageData);
+        
+        const preview = document.getElementById("preview");
+        
+        // ✅ CREAR CANVAS PARA EL RECORTE
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Tamaño final deseado
+        canvas.width = 300;
+        canvas.height = 300;
+        
+        // ✅ DIBUJAR LA IMAGEN RECORTADA
+        // En v2.x, la imagen ya está transformada y recortada en el preview
+        // Solo necesitamos dibujar el área visible
+        ctx.drawImage(
+            preview,
+            imageData.left,    // X posición del recorte
+            imageData.top,     // Y posición del recorte  
+            imageData.width,   // Ancho del recorte
+            imageData.height,  // Alto del recorte
+            0, 0, 300, 300     // Dimensiones destino
+        );
+        
+        // ✅ CONVERTIR A BASE64
+        const base64 = canvas.toDataURL("image/png", 0.95);
+        const recortada = document.getElementById("imagenPrevia");
+        
+        recortada.src = base64;
+        window.imagenRecortadaFile = dataURLtoFile(base64, "recorte.png");
+        recortada.style.display = "block";
 
-    // 6. DESTRUIR INSTANCIA
-    if (cropper) {
-      cropper.destroy();
-      cropper = null;
+        // ✅ CERRAR MODALES
+        document.getElementById("modalRecorte").classList.add("oculto");
+        document.getElementById("modal").classList.remove("oculto");
+
+        // ✅ LIMPIAR
+        if (cropper) {
+            cropper.destroy();
+            cropper = null;
+        }
+
+        console.log("✅ Recorte completado con v2.1.0");
+
+    } catch (error) {
+        console.error("💥 Error en el recorte:", error);
+        alert("Error al recortar: " + error.message);
     }
 });
 
