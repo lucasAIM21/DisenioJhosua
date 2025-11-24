@@ -352,7 +352,11 @@ async function cargarCropper() {
         console.log("🔧 Cargando Cropper...");
         const modulo = await import("../libs/node_modules/cropperjs/dist/cropper.esm.js");
         Cropper = modulo.default;
+
         console.log("✅ Cropper cargado correctamente");
+        console.log("Cropper importado: ",Cropper);
+        console.log("version: ",modulo);
+        console.log("Tiene version: ",Cropper.version);
     } catch (error) {
         console.error("❌ Error cargando Cropper:", error);
         alert("Error: No se pudo cargar el editor de imágenes. Recarga la página.");
