@@ -295,31 +295,29 @@ document.getElementById("imagen").addEventListener("change", (e) => {
 });
 
 document.getElementById("btnRecortar").addEventListener("click", () => {
-  console.log("estado del cropper",cropper);
-  console.log("🔍 Tipo de getCroppedCanvas:", cropper ? typeof cropper.getCroppedCanvas : "cropper es null");
-
-  if (!cropper || typeof cropper.getCroppedCanvas !== 'function') {
-    alert("Error: Cropper no está inicializado correctamente.");
-    document.getElementById("modalRecorte").classList.add("oculto");
-    document.getElementById("modal").classList.remove("oculto");
-    return;
-  }
-
-  try {
-    // 2. OBTENER CANVAS RECORTADO
-    const canvas = cropper.getCroppedCanvas({
-      width: 300,
-      height: 300,
-      imageSmoothingEnabled: true,
-      imageSmoothingQuality: 'high'
-    });
-
-    // 3. VERIFICAR QUE EL CANVAS SE GENERÓ
-    if (!canvas) {
-      throw new Error("No se pudo generar el canvas recortado");
-    }
-
-    // 4. CONVERTIR A BASE64
+  if (!cropper) return;
+    
+    // ✅ PARA CROPPER v2.x
+    const data = cropper.getData();
+    const preview = document.getElementById("preview");
+    
+    // Crear canvas manualmente
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 300;
+    canvas.height = 300;
+    
+    // Calcular escala para mantener relación de aspecto
+    const scaleX = preview.naturalWidth / preview.width;
+    const scaleY = preview.naturalHeight / preview.height;
+    
+    ctx.drawImage(
+        preview,
+        data.x * scaleX, data.y * scaleY, 
+        data.width * scaleX, data.height * scaleY,
+        0, 0, 300, 300
+    );
+    
     const base64 = canvas.toDataURL("image/png");
     const recortada = document.getElementById("imagenPrevia");
     
@@ -336,11 +334,6 @@ document.getElementById("btnRecortar").addEventListener("click", () => {
       cropper.destroy();
       cropper = null;
     }
-
-  } catch (error) {
-    console.error("Error al recortar:", error);
-    alert("Error al recortar la imagen. Por favor, intenta nuevamente.");
-  }
 });
 
 function cargarSelect(){
