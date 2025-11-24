@@ -1,14 +1,14 @@
 import Platillo from "../Clases/Platillo.js";
 import Categoria from "../Clases/Categoria.js";
-import Cropper from "../libs/node_modules/cropperjs/dist/cropper.esm.js";
 
 
 const API_URL = "https://laimserver.duckdns.org";
 let platillos = [];
 let Categorias =[];
 let editandoId = null;
+let cropper=null;
 
-let cropper;
+let Cropper;
 
 
 async function ValidarSesion() {
@@ -345,7 +345,7 @@ async function cargarCropper() {
     try {
         console.log("🔧 Cargando Cropper...");
         const modulo = await import("../libs/node_modules/cropperjs/dist/cropper.esm.js");
-        cropper = modulo.default;
+        Cropper = modulo.default;
         console.log("✅ Cropper cargado correctamente");
     } catch (error) {
         console.error("❌ Error cargando Cropper:", error);
