@@ -295,61 +295,51 @@ document.getElementById("imagen").addEventListener("change", (e) => {
 });
 
 document.getElementById("btnRecortar").addEventListener("click", async () => {
-    console.log("✂️ Iniciando recorte con Cropper v2.1.0...");
+    const btnRecortar = document.getElementById("btnRecortar");
+    const originalText = btnRecortar.textContent;
     
-    if (!cropper) {
-        alert("Error: No hay imagen para recortar.");
-        return;
-    }
-
+    // ✅ MOSTRAR FEEDBACK AL USUARIO
+    btnRecortar.textContent = "Procesando...";
+    btnRecortar.disabled = true;
+    
     try {
-        console.log("🎯 Buscando elemento de selección...");
-        
-        // ✅ PARA CROPPER v2.1.0 - USAR EL ELEMENTO DE SELECCIÓN
         const selectionElement = document.querySelector('cropper-selection');
-        
-        if (!selectionElement) {
-            throw new Error("No se encontró el elemento de selección");
-        }
-
-        console.log("📦 Elemento de selección encontrado:", selectionElement);
-        
-        // ✅ OBTENER CANVAS RECORTADO usando $toCanvas()
-        console.log("🎨 Generando canvas recortado...");
         const canvas = await selectionElement.$toCanvas({
-            width: 300,
-            height: 300
+            width: 250,
+            height: 250
         });
 
-        if (!canvas) {
-            throw new Error("No se pudo generar el canvas recortado");
-        }
+        canvas.toBlob((blob) => {
+            const recortada = document.getElementById("imagenPrevia");
+            const url = URL.createObjectURL(blob);
+            recortada.src = url;
+            window.imagenRecortadaFile = new File([blob], "recorte.jpg", { 
+                type: "image/jpeg" 
+            });
+            
+            document.getElementById("modalRecorte").classList.add("oculto");
+            document.getElementById("modal").classList.remove("oculto");
 
-        console.log("✅ Canvas generado correctamente");
-        
-        // ✅ CONVERTIR A BASE64
-        const base64 = canvas.toDataURL("image/png", 0.95);
-        const recortada = document.getElementById("imagenPrevia");
-        
-        recortada.src = base64;
-        window.imagenRecortadaFile = dataURLtoFile(base64, "recorte.png");
-        recortada.style.display = "block";
-
-        // ✅ CERRAR MODALES
-        document.getElementById("modalRecorte").classList.add("oculto");
-        document.getElementById("modal").classList.remove("oculto");
-
-        // ✅ LIMPIAR
-        if (cropper) {
-            cropper.destroy();
-            cropper = null;
-        }
-
-        console.log("✅ Recorte completado con v2.1.0");
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            
+            URL.revokeObjectURL(url);
+            
+            // ✅ RESTAURAR BOTÓN
+            btnRecortar.textContent = originalText;
+            btnRecortar.disabled = false;
+            
+        }, "image/jpeg", 0.7);
 
     } catch (error) {
-        console.error("💥 Error en el recorte:", error);
-        alert("Error al recortar la imagen: " + error.message);
+        console.error("Error:", error);
+        alert("Error al recortar: " + error.message);
+        
+        // ✅ RESTAURAR BOTÓN EN CASO DE ERROR
+        btnRecortar.textContent = originalText;
+        btnRecortar.disabled = false;
     }
 });
 
