@@ -8,7 +8,7 @@ let platillos = [];
 let Categorias =[];
 let editandoId = null;
 
-let cropper = null;
+let cropper;
 
 
 async function ValidarSesion() {
@@ -341,12 +341,27 @@ function cargarSelect(){
   });
 }
 
+async function cargarCropper() {
+    try {
+        console.log("🔧 Cargando Cropper...");
+        const modulo = await import("../libs/node_modules/cropperjs/dist/cropper.esm.js");
+        cropper = modulo.default;
+        console.log("✅ Cropper cargado correctamente");
+    } catch (error) {
+        console.error("❌ Error cargando Cropper:", error);
+        alert("Error: No se pudo cargar el editor de imágenes. Recarga la página.");
+    }
+}
+
 document.getElementById("btn-agregar").addEventListener("click", () => abrirModal());
+
+
 
 async function init(){
   await ValidarSesion();
   await mostrarMenu();
   await cargarSelect();
+  await cargarCropper();
 }
 
 init();
