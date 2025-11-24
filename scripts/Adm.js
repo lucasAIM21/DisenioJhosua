@@ -267,6 +267,7 @@ document.getElementById("imagen").addEventListener("change", (e) => {
   
   // Inicia cropper nuevo
   preview.onload = () => {
+    console.log("Imagen cargada para recorte");
     cropper = new Cropper(preview, {
     aspectRatio: 1, // cuadrado
     viewMode: 1,
