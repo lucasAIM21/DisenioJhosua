@@ -12,7 +12,7 @@ let Cropper;
 
 
 async function ValidarSesion() {
-  const res = await fetch('https://laimserver.duckdns.org/api/ValidarPIN', {
+  const res = await fetch('https://laimserver.duckdns.org/api/sesion', {
     credentials: 'include',
     method: 'GET'
   });
@@ -377,7 +377,7 @@ document.getElementById("btn-agregar").addEventListener("click", () => abrirModa
 async function init(){
   await ValidarSesion();
   await mostrarMenu();
-  await cargarSelect();
+  //await cargarSelect();
   await cargarCropper();
 }
 
