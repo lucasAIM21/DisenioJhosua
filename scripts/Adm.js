@@ -199,12 +199,11 @@ document.getElementById("guardar")?.addEventListener("click", async () => {
   datos.append("descripcion",descripcion);
   datos.append("cantidad",cantidad);
   datos.append("CategoriaId",categoriaid);
-
   if(imagen){
     datos.append("imagen",imagen);
   }
 
-  if (!nombre || !descripcion || !precio || !cantidad || !imagen || !categoriaid) {
+  if (!nombre || !descripcion || !precio || !cantidad || !categoriaid) {
     alert("Por favor llena todos los campos.");
     return;
   }
