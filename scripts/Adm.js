@@ -379,7 +379,7 @@ document.getElementById("btn-agregar").addEventListener("click", () => abrirModa
 async function init(){
   await ValidarSesion();
   await mostrarMenu();
-  //await cargarSelect();
+  await cargarSelect();
   await cargarCropper();
 }
 
