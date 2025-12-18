@@ -190,17 +190,19 @@ document.getElementById("guardar")?.addEventListener("click", async () => {
   const descripcion = document.getElementById("descripcion").value;
   const precio = parseFloat(document.getElementById("precio").value);
   const cantidad = parseInt(document.getElementById("cantidad").value);
-  let imagen = window.imagenRecortadaFile ?? document.getElementById("imagen").files[0];
   const categoriaid = document.getElementById("Categorias").value;
+  let imagen = window.imagenRecortadaFile ?? null;
 
   const datos= new FormData();
   datos.append("nombre",nombre);
   datos.append("precio",precio);
   datos.append("descripcion",descripcion);
   datos.append("cantidad",cantidad);
-  datos.append("imagen",imagen);
   datos.append("CategoriaId",categoriaid);
 
+  if(imagen){
+    datos.append("imagen",imagen);
+  }
 
   if (!nombre || !descripcion || !precio || !cantidad || !imagen || !categoriaid) {
     alert("Por favor llena todos los campos.");
