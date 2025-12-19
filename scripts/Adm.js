@@ -290,25 +290,26 @@ document.getElementById("imagen").addEventListener("change", (e) => {
       console.error("💥 Error inicializando Cropper:", error);
       alert("Error al preparar el editor de imágenes.");
     }
-  };
-  preview.src = url;
-  preview.onload = () => {
     URL.revokeObjectURL(url); // libera memoria
   };
+  preview.src = url;
   preview.style.display = "block";
 });
 
-document.getElementById("btnRecortar").addEventListener("click", async () => {
+document.getElementById("btnRecortar").addEventListener("click", () => {
+    if (!cropper) {
+        alert("No hay imagen para recortar");
+        return;
+    }
+
     const btnRecortar = document.getElementById("btnRecortar");
     const originalText = btnRecortar.textContent;
-    
-    // ✅ MOSTRAR FEEDBACK AL USUARIO
+
     btnRecortar.textContent = "Procesando...";
     btnRecortar.disabled = true;
-    
+
     try {
-        const selectionElement = document.querySelector('cropper-selection');
-        const canvas = await selectionElement.$toCanvas({
+        const canvas = cropper.getCroppedCanvas({
             width: 250,
             height: 250
         });
@@ -316,38 +317,35 @@ document.getElementById("btnRecortar").addEventListener("click", async () => {
         canvas.toBlob((blob) => {
             const recortada = document.getElementById("imagenPrevia");
             const url = URL.createObjectURL(blob);
-            recortada.onload = () => {
-            URL.revokeObjectURL(url);
-            };
+
+            recortada.onload = () => URL.revokeObjectURL(url);
             recortada.src = url;
-            window.imagenRecortadaFile = new File([blob], "recorte.jpg", { 
-                type: "image/jpeg" 
-            });
-            
+
+            window.imagenRecortadaFile = new File(
+                [blob],
+                "recorte.jpg",
+                { type: "image/jpeg" }
+            );
+
             document.getElementById("modalRecorte").classList.add("oculto");
             document.getElementById("modal").classList.remove("oculto");
 
-            if (cropper) {
-                cropper.destroy();
-                cropper = null;
-            }
-            
-            
-            // ✅ RESTAURAR BOTÓN
+            cropper.destroy();
+            cropper = null;
+
             btnRecortar.textContent = originalText;
             btnRecortar.disabled = false;
-            
         }, "image/jpeg", 0.7);
 
     } catch (error) {
-        console.error("Error:", error);
-        alert("Error al recortar: " + error.message);
-        
-        // ✅ RESTAURAR BOTÓN EN CASO DE ERROR
+        console.error(error);
+        alert("Error al recortar imagen");
+
         btnRecortar.textContent = originalText;
         btnRecortar.disabled = false;
     }
 });
+
 
 function cargarSelect(){
   const select=document.getElementById('Categorias');
