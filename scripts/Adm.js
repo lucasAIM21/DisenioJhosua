@@ -292,6 +292,9 @@ document.getElementById("imagen").addEventListener("change", (e) => {
     }
   };
   preview.src = url;
+  preview.onload = () => {
+    URL.revokeObjectURL(url); // libera memoria
+  };
   preview.style.display = "block";
 });
 
