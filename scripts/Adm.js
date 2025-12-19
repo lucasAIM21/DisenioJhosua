@@ -316,6 +316,9 @@ document.getElementById("btnRecortar").addEventListener("click", async () => {
         canvas.toBlob((blob) => {
             const recortada = document.getElementById("imagenPrevia");
             const url = URL.createObjectURL(blob);
+            recortada.onload = () => {
+            URL.revokeObjectURL(url);
+            };
             recortada.src = url;
             window.imagenRecortadaFile = new File([blob], "recorte.jpg", { 
                 type: "image/jpeg" 
@@ -329,7 +332,6 @@ document.getElementById("btnRecortar").addEventListener("click", async () => {
                 cropper = null;
             }
             
-            URL.revokeObjectURL(url);
             
             // ✅ RESTAURAR BOTÓN
             btnRecortar.textContent = originalText;
