@@ -6,10 +6,8 @@ const API_URL = "https://laimserver.duckdns.org";
 let platillos = [];
 let Categorias =[];
 let editandoId = null;
-let cropper=null;
 
-let Cropper;
-
+let cropper = null;
 
 async function ValidarSesion() {
   const res = await fetch('https://laimserver.duckdns.org/api/sesion', {
@@ -242,16 +240,6 @@ document.getElementById("cancelar")?.addEventListener("click", () => {
 });
 
 
-function dataURLtoFile(dataURL, filename) {
-    const arr = dataURL.split(',');
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) u8arr[n] = bstr.charCodeAt(n);
-    return new File([u8arr], filename, { type: mime });
-}
-
 document.getElementById("imagen").addEventListener("change", (e) => {
   if (typeof Cropper === 'undefined') {
     alert("Error: El editor de imágenes no está disponible. Recarga la página.");
@@ -290,7 +278,6 @@ document.getElementById("imagen").addEventListener("change", (e) => {
       console.error("💥 Error inicializando Cropper:", error);
       alert("Error al preparar el editor de imágenes.");
     }
-    URL.revokeObjectURL(url); // libera memoria
   };
   preview.src = url;
   preview.style.display = "block";
@@ -358,21 +345,6 @@ function cargarSelect(){
   });
 }
 
-async function cargarCropper() {
-    try {
-        console.log("🔧 Cargando Cropper...");
-        const modulo = await import("../libs/node_modules/cropperjs/dist/cropper.esm.js");
-        Cropper = modulo.default;
-
-        console.log("✅ Cropper cargado correctamente");
-        console.log("Cropper importado: ",Cropper);
-        console.log("version: ",modulo);
-        console.log("Tiene version: ",Cropper.version);
-    } catch (error) {
-        console.error("❌ Error cargando Cropper:", error);
-        alert("Error: No se pudo cargar el editor de imágenes. Recarga la página.");
-    }
-}
 
 document.getElementById("btn-agregar").addEventListener("click", () => abrirModal());
 
@@ -382,7 +354,6 @@ async function init(){
   await ValidarSesion();
   await mostrarMenu();
   await cargarSelect();
-  await cargarCropper();
 }
 
 init();
